@@ -197,7 +197,7 @@ def inference(model, test_loader, device):
 ######## Run!! #############
 if __name__ == '__main__':
     ## Model Define
-    model=RecognitionModel(num_chars=len(char2idx),rnn_hidden_size=256) # 단어 사전 갯수 정의
+    model=RecognitionModel(num_chars=len(char2idx)) # 단어 사전 갯수 정의
     model.load_state_dict(torch.load('model.pth'))
 
     # Optimizer & Scheduler
