@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torchvision.models import resnet18
-
+from torchsummary import summary
 
 ## Baseline Model
 class RecognitionModel(nn.Module):
@@ -52,3 +52,7 @@ class RecognitionModel(nn.Module):
         output = output.permute(1, 0, 2) # [T==10, batch_size, num_classes==num_features]
         
         return output
+
+if __name__ == '__main__':
+    model = RecognitionModel(num_chars=2350).to('cpu')
+    summary(model,(1, 64, 224))
