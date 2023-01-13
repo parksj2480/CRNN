@@ -46,8 +46,9 @@ CFG = {
     'LEARNING_RATE':1e-4,
     'BATCH_SIZE':128,
     'NUM_WORKERS':4, # 본인의 GPU, CPU 환경에 맞게 설정
-    'SEED':41,
-    'augmentation':3
+    'SEED':42,
+    'augmentation':3,
+    'LOAD_MODEL':False
 }
 
 
@@ -198,7 +199,14 @@ def inference(model, test_loader, device):
 if __name__ == '__main__':
     ## Model Define
     model=RecognitionModel(num_chars=len(char2idx)) # 단어 사전 갯수 정의
-    model.load_state_dict(torch.load('model.pth'))
+    if CFG['LOAD_MODEL']:
+        model.load_state_dict(torch.load('model.pth'))
+
+    # Make model Parellel Computing
+    if torch.cuda.device_count() > 1:
+        print("Let's use", torch.cuda.device_count(), "GPUs!")
+        # dim = 0 [30, xxx] -> [10, ...], [10, ...], [10, ...] on 3 GPUs
+        model = nn.DataParallel(model)
 
     # Optimizer & Scheduler
     optimizer = torch.optim.Adam(params = model.parameters(), lr = CFG["LEARNING_RATE"])
@@ -224,5 +232,5 @@ if __name__ == '__main__':
     submit['label'] = submit['temp_label'].apply(correct_prediction)
 
     print("%d번째 epoch 모델이 저장됨." % best_model_num)
-    submit.to_csv('./submission0.csv', index=False)
-    torch.save(infer_model.state_dict(),'./model0.pth')
+    submit.to_csv('./submission.csv', index=False)
+    torch.save(infer_model.state_dict(),'./model.pth')
