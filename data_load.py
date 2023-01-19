@@ -96,8 +96,8 @@ class CustomDataset(Dataset):
     # Image Augmentation
     def train_transform(self, image):
         transform_ops = transforms.Compose([
-            transforms.Pad(self.padding,padding_mode='edge'),
-            transforms.Resize((self.img_height,self.img_width)),
+            #transforms.Pad(self.padding,padding_mode='edge'),
+            #transforms.Resize((self.img_height,self.img_width)),
             transforms.ToTensor(),
             transforms.Normalize(mean=(0.45,), std=(0.225,))
         ])
@@ -105,8 +105,8 @@ class CustomDataset(Dataset):
     
     def test_transform(self, image):
         transform_ops = transforms.Compose([
-            transforms.Pad(self.padding,padding_mode='edge'),
-            transforms.Resize((self.img_height,self.img_width)),
+            #transforms.Pad(self.padding,padding_mode='edge'),
+            #transforms.Resize((self.img_height,self.img_width)),
             transforms.ToTensor(),
             transforms.Normalize(mean=(0.45,), std=(0.225,))
         ])
@@ -120,8 +120,8 @@ class CustomDataset(Dataset):
             transforms.RandomRotation(degrees=30), # Randomly rotate the image
             transforms.ColorJitter(brightness=0.5, contrast=0.5, saturation=0.5, hue=0.5), # Randomly change the brightness, contrast, saturation, and hue of the image
             transforms.GaussianBlur(kernel_size=kernel_size,sigma=(1,15)),
-            transforms.Pad(self.padding,padding_mode='edge'),
-            transforms.Resize((self.img_height,self.img_width)),
+            #transforms.Pad(self.padding,padding_mode='edge'),
+            #transforms.Resize((self.img_height,self.img_width)),
             transforms.ToTensor(),
             transforms.Normalize(mean=(0.45,),std=(0.225,)),
             #transforms.RandomErasing()
